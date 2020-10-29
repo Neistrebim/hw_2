@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var wg = &sync.WaitGroup{}
+// var wg = &sync.WaitGroup{}
 
 // ExecutePipeline takes job to implement some data processing
 func ExecutePipeline(jobs ...job) {
@@ -32,8 +32,8 @@ func ExecutePipeline(jobs ...job) {
 	}
 
 	// SingleHash, MultiHash, CombineResults
-	wg.Add(3)
-	wg.Wait()
+	// wg.Add(3)
+	// wg.Wait()
 	//time.Sleep(20 * time.Second)
 
 }
@@ -68,7 +68,7 @@ func SingleHash(in, out chan interface{}) {
 	close(out)
 	// from ExecutePipeline
 	fmt.Println("Reached wg.Done from SingleHash")
-	wg.Done()
+	// wg.Done()
 }
 
 // MultiHash does something
@@ -123,7 +123,7 @@ func MultiHash(in, out chan interface{}) {
 	// from ExecutePipeline
 	fmt.Println("Reached wg.Done from MultiHash")
 	close(out)
-	wg.Done()
+	// wg.Done()
 }
 
 // CombineResults does something
@@ -145,7 +145,7 @@ func CombineResults(in, out chan interface{}) {
 	// from ExecutePipeline
 	fmt.Println("Reached wg.Done from Combine")
 	close(out)
-	wg.Done()
+	// wg.Done()
 }
 
 func main() {
@@ -160,7 +160,6 @@ func main() {
 			for _, fibNum := range inputData {
 				out <- fibNum
 			}
-			close(out)
 		}),
 		job(SingleHash),
 		job(MultiHash),
